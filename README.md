@@ -1,6 +1,9 @@
 # 📊 ExpTrack -Expenses Tracker app
 
 This is a Java Spring Boot application for tracking expenses. 💰
+## PreView
+
+![image](https://github.com/samadpls/ExpTrack/assets/94792103/69d3baa7-bd87-4e87-b9de-1b892dfe4566)
 
 ## Prerequisites
 
