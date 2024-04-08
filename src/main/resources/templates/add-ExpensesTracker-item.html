@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.min.css} " />
+</head>
+
+<body>
+    <div class="container">
+        <div class="col-md-6">
+            <h1>Add a new Expenses Tracker Item</h1>
+            <form action="#" th:action="@{/ExpensesTracker}" th:object="${expensesTrackerItem}" method="POST">
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input class="form-control" type="text" th:field="*{description}" id="description"
+                        placeholder="Description">
+                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input class="form-control" type="number" th:field="*{price}" id="price"
+                        placeholder="Price">
+                </div>
+                <button type="submit" class="btn btn-success">Add ExpensesTracker!</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
