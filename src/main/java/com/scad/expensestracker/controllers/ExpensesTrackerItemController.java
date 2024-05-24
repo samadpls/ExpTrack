@@ -1,8 +1,12 @@
 package com.scad.expensestracker.controllers;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +41,12 @@ public class ExpensesTrackerItemController {
         modelAndView.addObject("ExpensesTrackerItems", expensesTrackerItems);
         modelAndView.addObject("today", Instant.now().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfWeek());
         modelAndView.addObject("totalPrice", totalPrice);
+       
+
+        double averageDailyExpense = calculateAverageDailyExpense();
+        String dominantCategory = findDominantCategory();
+        modelAndView.addObject("averageDailyExpenses", averageDailyExpense);
+        modelAndView.addObject("mostExpensiveCategory", dominantCategory);
 
 
         return modelAndView;
@@ -63,6 +73,28 @@ public class ExpensesTrackerItemController {
         expensesTrackerItem.setModifiedDate(Instant.now());
         ExpensesTrackerRepository.save(expensesTrackerItem);
         return "redirect:/";
+    }
+
+    private String findDominantCategory() {
+            List<ExpensesTrackerItem> items = (List<ExpensesTrackerItem>) ExpensesTrackerRepository.findAll();
+
+            return items.stream()
+                .collect(Collectors.groupingBy(ExpensesTrackerItem::getCategory, Collectors.summingDouble(ExpensesTrackerItem::getPrice)))
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);
+    }
+
+    private double calculateTotalExpense() {
+       List<ExpensesTrackerItem> expensesTrackerItems = new ArrayList<>();
+       ExpensesTrackerRepository.findAll().forEach(expensesTrackerItems::add);
+       return expensesTrackerItems.stream().mapToDouble(ExpensesTrackerItem::getPrice).sum();
+   }
+
+    private double calculateAverageDailyExpense() {
+        long days = ChronoUnit.DAYS.between(LocalDate.now(), Instant.now().atZone(ZoneId.systemDefault()).toLocalDate());
+        return days == 0 ? 1200.00 : calculateTotalExpense() / days; // Handle division by zero
     }
 
 

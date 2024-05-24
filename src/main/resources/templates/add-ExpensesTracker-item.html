@@ -24,6 +24,16 @@
                     <input class="form-control" type="number" th:field="*{price}" id="price"
                         placeholder="Price">
                 </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" th:field="*{category}" class="form-control">
+                        <option value="grocery">Grocery</option>
+                        <option value="academics">Academics</option>
+                        <option value="hobby">Hobby</option>
+                        <option value="house_maintenance">House Maintenance</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-success">Add ExpensesTracker!</button>
             </form>
         </div>

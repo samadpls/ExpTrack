@@ -24,6 +24,16 @@
                         placeholder="Enter the price">
                     <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
                 </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" th:field="*{category}" class="form-control">
+                        <option value="grocery">Grocery</option>
+                        <option value="academics">Academics</option>
+                        <option value="hobby">Hobby</option>
+                        <option value="house_maintenance">House Maintenance</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
 
                 <button class="btn btn-default" type="submit">Update</button>
 

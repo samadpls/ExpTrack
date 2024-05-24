@@ -24,8 +24,8 @@ public class ExpensesTrackerItemDataLoader implements CommandLineRunner {
 
     private void loadSeedData() {
         if (ExpensesTrackerRepository.count() == 0) {
-            ExpensesTrackerItem ExpensesTrackerItem1 = new ExpensesTrackerItem("milk", 50);
-            ExpensesTrackerItem ExpensesTrackerItem2 = new ExpensesTrackerItem("leaves",20);
+            ExpensesTrackerItem ExpensesTrackerItem1 = new ExpensesTrackerItem("milk", 50,"grocery");
+            ExpensesTrackerItem ExpensesTrackerItem2 = new ExpensesTrackerItem("leaves",20,"grocery");
 
             ExpensesTrackerRepository.save(ExpensesTrackerItem1);
             ExpensesTrackerRepository.save(ExpensesTrackerItem2); 

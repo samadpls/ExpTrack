@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">Total Expenses</div>
+                    <div class="card-body">
+                        <h4 class="card-title" th:text="${totalPrice}">Total Expenses: $${totalPrice}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Average Daily Expenses</div>
+                    <div class="card-body">
+                        <h4 class="card-title" th:text="${averageDailyExpenses}">Average Daily Expenses: $${averageDailyExpenses}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-header">Most Expensive Category</div>
+                    <div class="card-body">
+                        <h4 class="card-title" th:text="${mostExpensiveCategory}">Most Expensive Category: ${mostExpensiveCategory}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

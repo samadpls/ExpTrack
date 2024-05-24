@@ -6,19 +6,73 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.min.css} " />
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 20;
+            background: linear-gradient(to bottom, #dedeec, #8ac2e3);
+            font-size: 5em;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+        }
+        h1{
+            color:darkblue;
+            font-size: 7em;
+            font-weight: bold;
+        }
+        .Label{
+            display: stretch;
+            text-align: center;
+            color:white;
+            font-size: 3em;
+            font-weight: 100;
+            background-color: darkblue;
+        }
+        .table{
+            font-size-adjust: auto;
+            font-size: 1.2em;
+            font-weight: 600;
+            border-color: darkblue;
+            border-width: 2cm;
+        }
+        .table-bordered,
+        .table-bordered th,
+        .table-bordered td {
+            border: 2px solid ;
+            border-color:darkblue
+        }
+    </style>
+    
 </head>
 <body>
     <div class="container">
         <h1 class="text-center">Expenses Tracker List</h1>
         <hr />
+        <div class="text-center">
+        <div class="Label">
         <p th:text="|Happy ${today}|">Today</p>
-        <table class="table table-bordered table-striped">
-            <thead>
+        </div>
+    </div>
+    <div class="container mt-5">  <div class="row">
+        <div class="col-md-12">
+            
+          <th:block th:insert="~{/dashboard}"></th:block>
+        </div>
+      </div>
+    </div>
+
+        <table class="table table-bordered border-primary table-hover table-primary">
+            <thead class="thead-dark">
                 <tr>
                     <th>Actions</th>
                     <th>Id</th>
                     <th>Description</th>
                     <th>Price</th>
+                    <th>Category</th>
                     <th>Created Date</th>
                     <th>Modified Date</th>
                 </tr>
@@ -34,6 +88,7 @@
                     <td th:text="${item.id}">item_id</td>
                     <td th:text="${item.description}">item_description</td>
                     <td th:text="${item.price}">item_price</td>
+                    <td th:text="${item.category}">item_category</td>
                     <td th:text="${item.createdDate}">item_created_date</td>
                     <td th:text="${item.modifiedDate}">item_modified_date</td>
                 </tr>
