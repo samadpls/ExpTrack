@@ -28,7 +28,8 @@ import jakarta.validation.Valid;
 public class ExpensesTrackerItemController {
     private final Logger logger = LoggerFactory.getLogger(ExpensesTrackerItemController.class);
    
-    @Autowired
+    @Autowired // This allows Spring to manage the lifecycle of the repository and ensures that 
+    // it's properly initialized when it's used in your controller.
     private ExpensesTrackerRepository ExpensesTrackerRepository;
 
     @GetMapping("/")

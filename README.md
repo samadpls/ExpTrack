@@ -3,7 +3,8 @@
 This is a Java Spring Boot application for tracking expenses. 💰
 ## PreView
 
-![image](https://github.com/samadpls/ExpTrack/assets/94792103/69d3baa7-bd87-4e87-b9de-1b892dfe4566)
+![image](https://github.com/samadpls/ExpTrack/assets/94792103/2cb75d37-90c1-4308-bb3b-2240f26b4e52)
+
 
 ## Prerequisites
 
