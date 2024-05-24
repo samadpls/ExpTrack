@@ -30,6 +30,11 @@ public class ExpensesTrackerItem {
 
     @Getter
     @Setter
+    @Column(name="category")
+    private String category;
+
+    @Getter
+    @Setter
     private Instant createdDate;
 
     @Getter
@@ -38,16 +43,17 @@ public class ExpensesTrackerItem {
 
     public ExpensesTrackerItem() {}
 
-    public ExpensesTrackerItem(String description, Integer price) {
+    public ExpensesTrackerItem(String description, Integer price,String category) {
         this.description = description;
         this.price = price;
+        this.category = category;
         this.createdDate = Instant.now();
         this.modifiedDate = Instant.now();
     }
     
     @Override
     public String toString() {
-        return String.format("ExpensesTrackerItem{id=%d, description='%s', price='%d', createdDate='%s', modifiedDate='%s'}",
-        id, description, price, createdDate, modifiedDate);
+        return String.format("ExpensesTrackerItem{id=%d, description='%s',category='%s' price='%d', createdDate='%s', modifiedDate='%s'}",
+        id, description,category, price, createdDate, modifiedDate);
     }
 }
