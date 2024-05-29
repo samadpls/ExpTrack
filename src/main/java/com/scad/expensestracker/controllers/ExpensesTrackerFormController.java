@@ -30,11 +30,18 @@ public class ExpensesTrackerFormController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteExpensesTrackerItem(@PathVariable("id") long id) {
-        ExpensesTrackerItem expensesTrackerItem = expensesTrackerRepository
+    public String deleteExpensesTrackerItem(@PathVariable("id") long id, Model model) {
+        try {
+            ExpensesTrackerItem expensesTrackerItem = expensesTrackerRepository
             .findById(id)
             .orElseThrow(() -> new IllegalArgumentException("ExpensesTrackerItem id: " + id + " not found"));
-        expensesTrackerRepository.delete(expensesTrackerItem);
+            expensesTrackerRepository.delete(expensesTrackerItem);
+        } catch (Exception e) {
+            // Log the exception or handle it as needed
+            System.out.println("Error deleting ExpensesTrackerItem: " + e.getMessage());
+        }
         return "redirect:/";
-    }
+}
+
+    
 }
