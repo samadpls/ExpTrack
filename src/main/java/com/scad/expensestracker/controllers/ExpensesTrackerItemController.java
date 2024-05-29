@@ -28,13 +28,13 @@ public class ExpensesTrackerItemController {
     private final Logger logger = LoggerFactory.getLogger(ExpensesTrackerItemController.class);
 
     @Autowired
-    private ExpensesTrackerRepository expensesTrackerRepository;
+    private ExpensesTrackerRepository ExpensesTrackerRepository;
 
     @GetMapping("/")
     public ModelAndView index() {
         logger.debug("root to GET index");
         ModelAndView modelAndView = new ModelAndView("index");
-        List<ExpensesTrackerItem> expensesTrackerItems = (List<ExpensesTrackerItem>) expensesTrackerRepository.findAll();
+        List<ExpensesTrackerItem> expensesTrackerItems = (List<ExpensesTrackerItem>) ExpensesTrackerRepository.findAll();
         double totalPrice = expensesTrackerItems.stream().mapToDouble(ExpensesTrackerItem::getPrice).sum();
         modelAndView.addObject("ExpensesTrackerItems", expensesTrackerItems);
         modelAndView.addObject("today", Instant.now().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfWeek());
@@ -52,7 +52,7 @@ public class ExpensesTrackerItemController {
         }
         expensesTrackerItem.setCreatedDate(Instant.now());
         expensesTrackerItem.setModifiedDate(Instant.now());
-        expensesTrackerRepository.save(expensesTrackerItem);
+        ExpensesTrackerRepository.save(expensesTrackerItem);
         return "redirect:/";
     }
     
@@ -64,12 +64,12 @@ public class ExpensesTrackerItemController {
         }
     
         expensesTrackerItem.setModifiedDate(Instant.now());
-        expensesTrackerRepository.save(expensesTrackerItem);
+        ExpensesTrackerRepository.save(expensesTrackerItem);
         return "redirect:/";
     }
     
     private String findDominantCategory() {
-        List<ExpensesTrackerItem> items = (List<ExpensesTrackerItem>) expensesTrackerRepository.findAll();
+        List<ExpensesTrackerItem> items = (List<ExpensesTrackerItem>) ExpensesTrackerRepository.findAll();
         return items.stream()
             .collect(Collectors.groupingBy(ExpensesTrackerItem::getCategory, Collectors.summingDouble(ExpensesTrackerItem::getPrice)))
             .entrySet().stream()
@@ -79,7 +79,7 @@ public class ExpensesTrackerItemController {
     }
     
     private double calculateTotalExpense() {
-        List<ExpensesTrackerItem> expensesTrackerItems = (List<ExpensesTrackerItem>) expensesTrackerRepository.findAll();
+        List<ExpensesTrackerItem> expensesTrackerItems = (List<ExpensesTrackerItem>) ExpensesTrackerRepository.findAll();
         return expensesTrackerItems.stream().mapToDouble(ExpensesTrackerItem::getPrice).sum();
     }
     
