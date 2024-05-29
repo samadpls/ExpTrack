@@ -2,58 +2,52 @@ package com.scad.expensestracker.models;
 
 import java.time.Instant;
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import lombok.ToString;
 
 @Entity
 @Table(name = "expensestracker_items")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Builder
 public class ExpensesTrackerItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter
-    @Setter
     private Long id;
 
-    @Getter
-    @Setter
     @NotBlank(message = "Description is required")
     private String description;
 
-    @Getter
-    @Setter
+    @Min(value = 0, message = "Price should be positive")
     private Integer price;
 
-    @Getter
-    @Setter
     @Column(name="category")
     private String category;
 
-    @Getter
-    @Setter
     private Instant createdDate;
-
-    @Getter
-    @Setter
     private Instant modifiedDate;
 
-    public ExpensesTrackerItem() {}
-
-    public ExpensesTrackerItem(String description, Integer price,String category) {
+    public ExpensesTrackerItem(String description, Integer price, String category) {
         this.description = description;
         this.price = price;
         this.category = category;
         this.createdDate = Instant.now();
         this.modifiedDate = Instant.now();
-    }
-    
-    @Override
-    public String toString() {
-        return String.format("ExpensesTrackerItem{id=%d, description='%s',category='%s' price='%d', createdDate='%s', modifiedDate='%s'}",
-        id, description,category, price, createdDate, modifiedDate);
     }
 }
