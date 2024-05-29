@@ -2,12 +2,12 @@ package com.scad.expensestracker.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.scad.expensestracker.models.ExpensesTrackerItem;
 import com.scad.expensestracker.repositories.ExpensesTrackerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 
 @Component
 public class ExpensesTrackerItemDataLoader implements CommandLineRunner {

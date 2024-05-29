@@ -13,7 +13,7 @@ import com.scad.expensestracker.repositories.ExpensesTrackerRepository;
 public class ExpensesTrackerFormController {
 
     @Autowired
-    private ExpensesTrackerRepository expensesTrackerRepository;
+    private ExpensesTrackerRepository ExpensesTrackerRepository;
 
     @GetMapping("/create-expensestracker")
     public String showCreateForm(ExpensesTrackerItem expensesTrackerItem) {
@@ -22,7 +22,7 @@ public class ExpensesTrackerFormController {
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
-        ExpensesTrackerItem expensesTrackerItem = expensesTrackerRepository
+        ExpensesTrackerItem expensesTrackerItem = ExpensesTrackerRepository
             .findById(id)
             .orElseThrow(() -> new IllegalArgumentException("ExpensesTrackerItem id: " + id + " not found"));
         model.addAttribute("ExpensesTracker", expensesTrackerItem);
@@ -31,10 +31,10 @@ public class ExpensesTrackerFormController {
 
     @GetMapping("/delete/{id}")
     public String deleteExpensesTrackerItem(@PathVariable("id") long id) {
-        ExpensesTrackerItem expensesTrackerItem = expensesTrackerRepository
+        ExpensesTrackerItem expensesTrackerItem = ExpensesTrackerRepository
             .findById(id)
             .orElseThrow(() -> new IllegalArgumentException("ExpensesTrackerItem id: " + id + " not found"));
-        expensesTrackerRepository.delete(expensesTrackerItem);
+        ExpensesTrackerRepository.delete(expensesTrackerItem);
         return "redirect:/";
     }
 }
