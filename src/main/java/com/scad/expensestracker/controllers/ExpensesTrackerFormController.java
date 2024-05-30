@@ -11,38 +11,30 @@ import com.scad.expensestracker.repositories.ExpensesTrackerRepository;
 
 @Controller
 public class ExpensesTrackerFormController {
-    
+
     @Autowired
-    private ExpensesTrackerRepository expensesTrackerRepository;
+    private ExpensesTrackerRepository ExpensesTrackerRepository;
 
     @GetMapping("/create-expensestracker")
-    public String showCreateForm(ExpensesTrackerItem expensesTrackerItem){
-        return "add-ExpensesTracker-item"; // html- file name
+    public String showCreateForm(ExpensesTrackerItem expensesTrackerItem) {
+        return "add-ExpensesTracker-item";
     }
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
-        ExpensesTrackerItem expensesTrackerItem = expensesTrackerRepository
-        .findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("ExpensesTrackerItem id: " + id + " not found"));
-    
+        ExpensesTrackerItem expensesTrackerItem = ExpensesTrackerRepository
+            .findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("ExpensesTrackerItem id: " + id + " not found"));
         model.addAttribute("ExpensesTracker", expensesTrackerItem);
         return "update-ExpensesTracker-item";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteExpensesTrackerItem(@PathVariable("id") long id, Model model) {
-        try {
-            ExpensesTrackerItem expensesTrackerItem = expensesTrackerRepository
+    public String deleteExpensesTrackerItem(@PathVariable("id") long id) {
+        ExpensesTrackerItem expensesTrackerItem = ExpensesTrackerRepository
             .findById(id)
             .orElseThrow(() -> new IllegalArgumentException("ExpensesTrackerItem id: " + id + " not found"));
-            expensesTrackerRepository.delete(expensesTrackerItem);
-        } catch (Exception e) {
-            // Log the exception or handle it as needed
-            System.out.println("Error deleting ExpensesTrackerItem: " + e.getMessage());
-        }
+        ExpensesTrackerRepository.delete(expensesTrackerItem);
         return "redirect:/";
-}
-
-    
+    }
 }

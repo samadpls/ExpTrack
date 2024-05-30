@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -46,7 +46,7 @@
             border-color:darkblue
         }
     </style>
-    
+    <title>Expense Tracker</title>
 </head>
 <body>
     <div class="container">
@@ -78,19 +78,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="item, rowStatus : ${ExpensesTrackerItems}" th:class="${rowStatus.even} ? 'even-row' : 'odd-row'">
+                <tr th:each="ExpenseItem, rowStatus : ${ExpensesTrackerItems}" th:class="${rowStatus.even} ? 'even-row' : 'odd-row'">
                     <td>
                         <div class="btn btn-group-sm" role="group">
-                            <a class="btn btn-info" th:href="@{/edit/{id}(id=${item.id})}">Edit</a>
-                            <a class="btn btn-danger" th:href="@{/delete/{id}(id=${item.id})}">Delete</a>
+                            <a class="btn btn-info" th:href="@{/edit/{id}(id=${ExpenseItem.id})}">Edit</a>
+                            <a class="btn btn-danger" th:href="@{/delete/{id}(id=${ExpenseItem.id})}">Delete</a>
                         </div>
                     </td>
-                    <td th:text="${item.id}">item_id</td>
-                    <td th:text="${item.description}">item_description</td>
-                    <td th:text="${item.price}">item_price</td>
-                    <td th:text="${item.category}">item_category</td>
-                    <td th:text="${item.createdDate}">item_created_date</td>
-                    <td th:text="${item.modifiedDate}">item_modified_date</td>
+                    <td th:text="${ExpenseItem.id}">item_id</td>
+                    <td th:text="${ExpenseItem.description}">item_description</td>
+                    <td th:text="${ExpenseItem.price}">item_price</td>
+                    <td th:text="${ExpenseItem.category}">item_category</td>
+                    <td th:text="${ExpenseItem.createdDate}">item_created_date</td>
+                    <td th:text="${ExpenseItem.modifiedDate}">item_modified_date</td>
                 </tr>
             </tbody>
         </table>
