@@ -28,31 +28,30 @@ public class ExpensesTrackerItemController {
     private final Logger logger = LoggerFactory.getLogger(ExpensesTrackerItemController.class);
 
     @Autowired
-    private ExpensesTrackerRepository ExpensesTrackerRepository;
+    private ExpensesTrackerRepository expensesTrackerRepository;
 
     @GetMapping("/")
     public ModelAndView index() {
         logger.debug("root to GET index");
         ModelAndView modelAndView = new ModelAndView("index");
-        List<ExpensesTrackerItem> expensesTrackerItems = (List<ExpensesTrackerItem>) ExpensesTrackerRepository.findAll();
+        List<ExpensesTrackerItem> expensesTrackerItems = (List<ExpensesTrackerItem>) expensesTrackerRepository.findAll();
         double totalPrice = expensesTrackerItems.stream().mapToDouble(ExpensesTrackerItem::getPrice).sum();
         modelAndView.addObject("ExpensesTrackerItems", expensesTrackerItems);
         modelAndView.addObject("today", Instant.now().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfWeek());
         modelAndView.addObject("totalPrice", totalPrice);
-        modelAndView.addObject("averageDailyExpenses", calculateAverageDailyExpense());
+        modelAndView.addObject("averageDailyExpenses", calculateAverageDailyExpense(expensesTrackerItems));
         modelAndView.addObject("mostExpensiveCategory", findDominantCategory());
         return modelAndView;
     }
 
     @PostMapping("/ExpensesTracker")
-    public String createExpensesTrackerItem(@Valid ExpensesTrackerItem expensesTrackerItem, BindingResult result)
-    {
+    public String createExpensesTrackerItem(@Valid ExpensesTrackerItem expensesTrackerItem, BindingResult result) {
         if (result.hasErrors()) {
             return "add-ExpensesTracker-item";
         }
         expensesTrackerItem.setCreatedDate(Instant.now());
         expensesTrackerItem.setModifiedDate(Instant.now());
-        ExpensesTrackerRepository.save(expensesTrackerItem);
+        expensesTrackerRepository.save(expensesTrackerItem);
         return "redirect:/";
     }
     
@@ -64,12 +63,12 @@ public class ExpensesTrackerItemController {
         }
     
         expensesTrackerItem.setModifiedDate(Instant.now());
-        ExpensesTrackerRepository.save(expensesTrackerItem);
+        expensesTrackerRepository.save(expensesTrackerItem);
         return "redirect:/";
     }
     
     private String findDominantCategory() {
-        List<ExpensesTrackerItem> items = (List<ExpensesTrackerItem>) ExpensesTrackerRepository.findAll();
+        List<ExpensesTrackerItem> items = (List<ExpensesTrackerItem>) expensesTrackerRepository.findAll();
         return items.stream()
             .collect(Collectors.groupingBy(ExpensesTrackerItem::getCategory, Collectors.summingDouble(ExpensesTrackerItem::getPrice)))
             .entrySet().stream()
@@ -79,13 +78,22 @@ public class ExpensesTrackerItemController {
     }
     
     private double calculateTotalExpense() {
-        List<ExpensesTrackerItem> expensesTrackerItems = (List<ExpensesTrackerItem>) ExpensesTrackerRepository.findAll();
+        List<ExpensesTrackerItem> expensesTrackerItems = (List<ExpensesTrackerItem>) expensesTrackerRepository.findAll();
         return expensesTrackerItems.stream().mapToDouble(ExpensesTrackerItem::getPrice).sum();
     }
     
-    private double calculateAverageDailyExpense() {
-        long days = ChronoUnit.DAYS.between(LocalDate.now(), Instant.now().atZone(ZoneId.systemDefault()).toLocalDate());
-        return days == 0 ? 1200.00 : calculateTotalExpense() / days; // Handle division by zero
+    private double calculateAverageDailyExpense(List<ExpensesTrackerItem> expensesTrackerItems) {
+        if (expensesTrackerItems.isEmpty()) {
+            return 0.0;
+        }
+        LocalDate startDate = expensesTrackerItems.stream()
+            .map(item -> item.getCreatedDate().atZone(ZoneId.systemDefault()).toLocalDate())
+            .min(LocalDate::compareTo)
+            .orElse(LocalDate.now());
+
+        long days = ChronoUnit.DAYS.between(startDate, LocalDate.now());
+        days = Math.max(days, 1);
+
+        return calculateTotalExpense() / days;
     }
-    }
-    
+}

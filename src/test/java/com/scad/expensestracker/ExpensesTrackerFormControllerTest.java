@@ -37,16 +37,13 @@ class ExpensesTrackerFormControllerTest {
     @Test
     public void testShowUpdateForm() {
         long id = 1L;
-        ExpensesTrackerItem mockItem = new ExpensesTrackerItem(); // Create a mock ExpensesTrackerItem
-        when(expensesTrackerRepository.findById(id)).thenReturn(Optional.of(mockItem)); // Mock the behavior of the repository
+        ExpensesTrackerItem mockItem = new ExpensesTrackerItem();
+        when(expensesTrackerRepository.findById(id)).thenReturn(Optional.of(mockItem));
 
-        // Invoke the controller method
         String viewName = expensesTrackerFormController.showUpdateForm(id, model);
 
-        // Verify that the correct view name is returned
         assertEquals("update-ExpensesTracker-item", viewName);
 
-        // Verify that the model contains the correct attribute
         verify(model).addAttribute(eq("ExpensesTracker"), same(mockItem));
     }
 
