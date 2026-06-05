@@ -9,29 +9,42 @@ import org.springframework.stereotype.Component;
 import com.scad.expensestracker.models.ExpensesTrackerItem;
 import com.scad.expensestracker.repositories.ExpensesTrackerRepository;
 
+/**
+ * Loads initial sample expense records when the application starts.
+ * Seed data is inserted only if the database is empty.
+ */
 @Component
 public class ExpensesTrackerItemDataLoader implements CommandLineRunner {
 
     private final Logger logger = LoggerFactory.getLogger(ExpensesTrackerItemDataLoader.class);
 
     @Autowired
-    ExpensesTrackerRepository ExpensesTrackerRepository;
+    ExpensesTrackerRepository expensesTrackerRepository;
 
     @Override
     public void run(String... args) throws Exception {
         loadSeedData();
     }
 
+    /**
+     * Inserts sample data into the database if no records exist.
+     */
     private void loadSeedData() {
-        if (ExpensesTrackerRepository.count() == 0) {
-            ExpensesTrackerItem ExpensesTrackerItem1 = new ExpensesTrackerItem("milk", 50,"grocery");
-            ExpensesTrackerItem ExpensesTrackerItem2 = new ExpensesTrackerItem("leaves",20,"grocery");
 
-            ExpensesTrackerRepository.save(ExpensesTrackerItem1);
-            ExpensesTrackerRepository.save(ExpensesTrackerItem2); 
+        // Prevent duplicate seed data insertion
+        if (expensesTrackerRepository.count() == 0) {
+
+            ExpensesTrackerItem milkExpense =
+                    new ExpensesTrackerItem("milk", 50, "grocery");
+
+            ExpensesTrackerItem leavesExpense =
+                    new ExpensesTrackerItem("leaves", 20, "grocery");
+
+            expensesTrackerRepository.save(milkExpense);
+            expensesTrackerRepository.save(leavesExpense);
         }
 
-        logger.info("Number of ExpensesTrackerItems: {}", ExpensesTrackerRepository.count());
+        logger.info("Number of ExpensesTrackerItems: {}",
+                expensesTrackerRepository.count());
     }
-    
 }
